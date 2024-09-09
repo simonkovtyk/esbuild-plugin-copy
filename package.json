@@ -1,0 +1,61 @@
+{
+	"name": "esbuild-plugin-file-copy",
+	"description": "The plugin copies assets to the esbuild out folder, ensuring that all required files are included alongside the built code.",
+	"keywords": [
+		"frontend",
+		"backend",
+		"packages",
+		"esbuild",
+		"build",
+		"esbuild plugin",
+		"esbuild tool",
+		"build plugin",
+		"build tool",
+		"package.json",
+		"developer tools",
+		"build process",
+		"plugin",
+		"esbuild dependency",
+		"dependency management",
+		"optimize package json",
+		"validate package json",
+		"esbuild copy package json",
+		"esbuild copy",
+		"package json plugin",
+		"package config plugin"
+	],
+	"license": "MIT",
+	"version": "1.0.1",
+	"bugs": "https://github.com/simonkovtyk/esbuild-plugin-file-copy/issues",
+	"homepage": "https://github.com/simonkovtyk/esbuild-plugin-file-copy",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/simonkovtyk/esbuild-plugin-file-copy.git"
+	},
+	"exports": {
+		".": {
+			"default": "./public-api.js",
+			"types": "./public-api.d.ts"
+		}
+	},
+	"author": {
+		"name": "Simon Kovtyk",
+		"url": "https://github.com/simonkovtyk",
+		"email": "privat@kovtyk.com"
+	},
+	"maintainers": [
+		{
+			"name": "Simon Kovtyk",
+			"url": "https://github.com/simonkovtyk",
+			"email": "privat@kovtyk.com"
+		}
+	],
+	"dependencies": {
+		"esbuild": ">=0.20.0",
+		"fast-glob": "^3.3.2"
+	},
+	"devDependencies": {
+		"typescript": "^5.5.4",
+		"@types/node": "^22.5.4"
+	}
+}
