@@ -25,7 +25,7 @@
 		"package config plugin"
 	],
 	"license": "MIT",
-	"version": "1.0.1",
+	"version": "1.0.0",
 	"bugs": "https://github.com/simonkovtyk/esbuild-plugin-file-copy/issues",
 	"homepage": "https://github.com/simonkovtyk/esbuild-plugin-file-copy",
 	"repository": {
