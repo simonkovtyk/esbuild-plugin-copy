@@ -47,8 +47,8 @@ const handler = (inputs: string[] | Input[], options: ResolvePathOptions) => {
 	}
 }
 
-const copyPlugin = (options: Options): Plugin => ({
-	name: "esbuild-plugin-package-json",
+const fileCopyPlugin = (options: Options): Plugin => ({
+	name: "esbuild-plugin-file-copy",
 	setup: (build: PluginBuild) => {
 		const lifecycle: Lifecycle = options.lifecycle ?? "onEnd";
 
@@ -78,5 +78,5 @@ const copyPlugin = (options: Options): Plugin => ({
 })
 
 export {
-	copyPlugin
+	fileCopyPlugin
 }
