@@ -71,8 +71,7 @@ This plugin will use the esbuild configuration to determine the base output dire
 Sometimes it can be helpful to overwrite the base output directory.
 
 ````typescript
-packageJsonPlugin(
-  [...]
+fileCopyPlugin(
   overrideOutBase?: string | undefined,
   overrideOutDir?: string | undefined,
   overrideOutFile?: string | undefined
@@ -88,8 +87,7 @@ Each overwrite will overwrite the specific esbuild configuration.
 You can configure at which lifecycle of esbuild the plugin will be called.
 
 ````typescript
-packageJsonPlugin(
-  [...]
+fileCopyPlugin(
   lifecycle: "onStart" | "onEnd" | "onDispose" | undefined
 );
 ````
