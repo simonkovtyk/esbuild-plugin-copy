@@ -39,7 +39,7 @@ fileCopyPlugin({
 })
 ````
 
-In this case, the output directory of the matching files are the output directory of the esbuild configuration, because no output directory else was specified.
+In this case, the output directory of the matching files is the output directory of the esbuild configuration, because no output directory else was specified.
 
 If you want an option to handle the output directory of the files by yourself, you should follow the advanced including.
 
