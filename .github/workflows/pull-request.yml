@@ -1,0 +1,27 @@
+name: Pull request checks
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+    branches:
+      - main
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: true
+
+      - name: TypeScript Compiler
+        run: tsc --noEmit
+
+      - name: Lint
+        run: pnpx eslint .

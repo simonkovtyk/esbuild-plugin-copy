@@ -1,30 +1,30 @@
-type Lifecycle = "onStart" | "onEnd" | "onDispose";
+type Lifecycle = "onStart" | "onEnd";
 
-type Input = {
-	glob: string,
-	output?: string | undefined
+interface Input {
+  glob: string;
+  output?: string | undefined;
 }
 
-type PathOverrides = {
-	overrideOutBase?: string | undefined,
-	overrideOutDir?: string | undefined,
-	overrideOutFile?: string | undefined
+interface PathOverrides {
+  overrideOutBase?: string | undefined;
+  overrideOutDir?: string | undefined;
+  overrideOutFile?: string | undefined;
 }
 
 type Options = {
-	lifecycle?: Lifecycle | undefined,
-	inputs: string[] | Input[]
-} & PathOverrides
+  lifecycle?: Lifecycle | undefined;
+  inputs: string[] | Input[];
+} & PathOverrides;
 
 type ResolvePathOptions = {
-	outDir?: string | undefined,
-	outFile?: string | undefined,
-	outBase?: string | undefined
-} & PathOverrides
+  outDir?: string | undefined;
+  outFile?: string | undefined;
+  outBase?: string | undefined;
+} & PathOverrides;
 
 export type {
-	ResolvePathOptions,
-	Lifecycle,
-	Options,
-	Input
-}
+  ResolvePathOptions,
+  Lifecycle,
+  Options,
+  Input
+};
