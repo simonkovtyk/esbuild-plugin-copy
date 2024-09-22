@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="196" src="https://raw.githubusercontent.com/simonkovtyk/esbuild-plugin-file-copy/611c5c4942c8460ec6247ab833418908e9213a9b/docs/esbuild-favicon.svg" />
+<img width="196" src="https://raw.githubusercontent.com/simonkovtyk/esbuild-plugin-file-copy/c2d47dd6381cd8b71255ae4cfbd0fce6dec49eeb/docs/esbuild-favicon.svg" />
 
 <h1>File Copy Plugin</h1>
 
