@@ -65,23 +65,14 @@ This function needs to be called inside the esbuild configuration in order to us
 
 ````typescript
 esbuild.build({
-  // some configuration...
+  // some esbuild configuration...
   plugins: [
-    fileCopyPlugin();
-    // more plugins here...
+    fileCopyPlugin(
+      // configure it here...
+    );
+    // more esbuild plugins here...
   ]
 })
-````
-
-</details>
-
-<details>
-<summary>Show an example of the configuration</summary>
-
-````typescript
-fileCopyPlugin({
-  // configure here
-});
 ````
 
 </details>
@@ -96,19 +87,14 @@ A ``Array`` of ``object`` with the following properties:
 
 ````typescript
 {
-  from: "my-lib/example.ts", // any path allowed
-  to: "dist/my-lib" // copied path 
+  from: string,
+  to: string
 }
 ````
 
-````typescript
-fileCopyPlugin({
-  inputs: [{
-    from: "my-lib/example.ts", // any path allowed
-    to: "dist/my-lib" // copied path 
-  }]
-});
-````
+Any file or directory from the source path (``from`` key) will be copied to the target path (``to`` key).
+
+The file name will be kept while copying the file from source path to target path.
 
 <details>
 <summary>Show an example</summary>
@@ -116,8 +102,41 @@ fileCopyPlugin({
 ````typescript
 fileCopyPlugin({
   inputs: [{
-    from: "my-lib/example.ts", // any path allowed
-    to: "dist/my-lib" // copied path 
+    from: "my-lib/example.ts", // input path
+    to: "dist/my-lib" // copied to path
+  }]
+});
+````
+
+</details>
+
+#### ``globs``
+
+> Default: ``undefined``
+
+A ``Array`` of ``object`` with the following properties:
+
+````typescript
+{
+  from: string,
+  to: string
+}
+````
+
+Any matching file or directory from the source path (``from`` key) will be copied to the target path (``to`` key).
+
+The file name will be kept while copying the file from source path to target path.
+
+This option enables the use of glob patterns. [See here](https://www.malikbrowne.com/blog/a-beginners-guide-glob-patterns/) for more about glob patterns.
+
+<details>
+<summary>Show an example</summary>
+
+````typescript
+fileCopyPlugin({
+  globs: [{
+    from: "my-lib/**/*.env", // input path
+    to: "dist/my-lib" // copied to path
   }]
 });
 ````
