@@ -90,16 +90,35 @@ fileCopyPlugin({
 
 #### ``inputs``
 
-> Default: ``undefined`` (esbuild's tsconfig file)
+> Default: ``undefined``
 
-A ``string`` that determines the path to the tsconfig.
+A ``Array`` of ``object`` with the following properties:
+
+````typescript
+{
+  from: "my-lib/example.ts", // any path allowed
+  to: "dist/my-lib" // copied path 
+}
+````
+
+````typescript
+fileCopyPlugin({
+  inputs: [{
+    from: "my-lib/example.ts", // any path allowed
+    to: "dist/my-lib" // copied path 
+  }]
+});
+````
 
 <details>
 <summary>Show an example</summary>
 
 ````typescript
 fileCopyPlugin({
-  overridePathToTsconfig: "libs/my-lib/tsconfig.json" // any path allowed
+  inputs: [{
+    from: "my-lib/example.ts", // any path allowed
+    to: "dist/my-lib" // copied path 
+  }]
 });
 ````
 
