@@ -1,147 +1,166 @@
-# esbuild plugin for copying files
+<div align="center">
 
-![NPM Downloads](https://img.shields.io/npm/dw/esbuild-plugin-file-copy) ![NPM License](https://img.shields.io/npm/l/esbuild-plugin-file-copy)
+<img width="196" src="https://raw.githubusercontent.com/simonkovtyk/esbuild-plugin-file-copy/611c5c4942c8460ec6247ab833418908e9213a9b/docs/esbuild-favicon.svg" />
 
-The plugin copies files to the esbuild out folder, ensuring that all required files are included alongside the built code.
+<h1>File Copy Plugin</h1>
 
-* Supports newest esbuild version
-* Advanced with globs
-* Uses raw filesystem calls
-* Uses esbuild config to determine the out folder
-* Type declarations (d.ts) included
+<p>This esbuild plugin copies specified files to the output folder after the bundling process. It ensures static assets are included in the final build without interrupting or altering the main esbuild workflow.</p>
 
-## How It Works
+![NPM Downloads](https://img.shields.io/npm/dw/esbuild-plugin-file-copy)
+![NPM License](https://img.shields.io/npm/l/esbuild-plugin-file-copy)
+![GitHub package.json version](https://img.shields.io/npm/v/esbuild-plugin-file-copy)
+![TypeScript types](https://img.shields.io/badge/TypeScript_types-included-blue)
 
-1. Parses the file paths by globs
-2. Creates folder for the file paths, if there are not exists.
-3. Determines the out-folder by using the existing esbuild configuration.
-4. Writes the files to their responsible out paths.
+<br />
 
-This plugin prefers an ``outdir`` over an ``outfile``, but if only an ``outfile`` is provided, the plugin will choose the directory of the ``outfile`` as base output directory for the files
-instead.\
-The ``outbase`` is used as a prefix for the ``outdir`` or ``outfile`` and it can be left as empty, if it is not needed.
+Add a ⭐ to this repository — *it motivates me a lot!*
 
-## Options
+</div>
 
-### Input files to copy them
+## ⚡️ Getting started
 
-Files can be provided as glob.\
-[See here for more about the syntax of globs.](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax)
+Simply install this package with your package manager.
 
-#### Simple including
-
-It is possible to provide globs only as ``string``:
-````typescript
-fileCopyPlugin({
-  inputs: [
-    "src/**/README.md"
-  ]
-})
+````shell
+npm install -D esbuild-plugin-file-copy
 ````
 
-In this case, the output directory of the matching files is the output directory of the esbuild configuration, because no output directory else was specified.
+<details>
+<summary>📦 other package manager</summary>
 
-If you want an option to handle the output directory of the files by yourself, you should follow the advanced including.
+Here are examples for installing the package with other package manager.
 
-#### Advanced including
+> 💾 **yarn**
+> ````shell
+> yarn add -D esbuild-plugin-file-copy
+> ````
 
-It is also possible to provide globs as ``Object``.
-
-````typescript
-fileCopyPlugin({
-  inputs: [
-   {
-     glob: "src/**/README.md",
-     output: "somefolder/anyfolder"
-   }
-  ]
-})
-````
-
-The ``Object`` expects a key "glob" and an optional key "output".
-
-
-If the key "output" is set, the output directory of the files will be the given output directory **without** the output directory of the esbuild configuration as base output directory.
-
-If the key "output" is not set, the output directory will be the base output directory of the esbuild configuration.
-
-### Base output directory
-
-This plugin will use the esbuild configuration to determine the base output directory for the files.\
-Sometimes it can be helpful to overwrite the base output directory.
-
-````typescript
-fileCopyPlugin(
-  overrideOutBase?: string | undefined,
-  overrideOutDir?: string | undefined,
-  overrideOutFile?: string | undefined
-);
-````
-
-Each overwrite will overwrite the specific esbuild configuration.
-
-[See here for more details about the out configuration of esbuild.](https://esbuild.github.io/api/#outbase)
-
-### Lifecycle
-
-You can configure at which lifecycle of esbuild the plugin will be called.
-
-````typescript
-fileCopyPlugin(
-  lifecycle: "onStart" | "onEnd" | "onDispose" | undefined
-);
-````
-
-[See here for more about the esbuild lifecycles.](https://esbuild.github.io/plugins/#concepts)
-
-## Usage
-
-### Installation
-
-The plugin can be installed by any package manager.
-
-<details><summary><b>Show instructions</b></summary>
-
-> npm \
-> ``npm install esbuild-plugin-file-copy``
-
-> yarn \
-> ``yarn install esbuild-plugin-file-copy``
-
-> pnpm \
-> ``pnpm install esbuild-plugin-file-copy``
+> 💾 **pnpm**
+> ````shell
+> pnpm install -D esbuild-plugin-file-copy
+> ````
 
 </details>
 
-### Integration
+Looks good so far 🔥 — now you have installed the latest version!
 
-The easy way to integrate this plugin in esbuild.
+## 💡 Introduction
 
-<details><summary><b>Show instructions</b></summary>
+This esbuild plugin simply copies specified files to the output folder during the build process. It reads a list of file paths or patterns, then moves those files into the output directory after
+esbuild finishes bundling.
+
+The plugin ensures that static assets, such as images or configuration files, are included in the final build. It’s lightweight and works without altering the bundling
+process itself. By automating file copying, it reduces manual steps and keeps the build process smooth and consistent.
+
+## 🔧 Usage
+
+```typescript
+fileCopyPlugin(options);
+```
+
+This function needs to be called inside the esbuild configuration in order to use this plugin. It will provide the plugin inside the build process of esbuild.
+
+<details>
+<summary>Show an example of the integration</summary>
 
 ````typescript
-await esbuild.build({
-  [...]
+esbuild.build({
+  // some esbuild configuration...
   plugins: [
-    fileCopyPlugin(...)
+    fileCopyPlugin(
+      // configure it here...
+    );
+    // more esbuild plugins here...
   ]
 })
 ````
 
-[See here for more about the esbuild plugin integration.](https://esbuild.github.io/plugins/#using-plugins)
+</details>
+
+### Properties
+
+#### ``inputs``
+
+> Default: ``undefined``
+
+A ``Array`` of ``object`` with the following properties:
+
+````typescript
+{
+  from: string,
+  to: string
+}
+````
+
+Any file or directory from the source path (``from`` key) will be copied to the target path (``to`` key).
+
+The file name will be kept while copying the file from source path to target path.
+
+<details>
+<summary>Show an example</summary>
+
+````typescript
+fileCopyPlugin({
+  inputs: [{
+    from: "my-lib/example.ts", // input path
+    to: "dist/my-lib" // copied to path
+  }]
+});
+````
 
 </details>
+
+#### ``globs``
+
+> Default: ``undefined``
+
+A ``Array`` of ``object`` with the following properties:
+
+````typescript
+{
+  from: string,
+  to: string
+}
+````
+
+Any matching file or directory from the source path (``from`` key) will be copied to the target path (``to`` key).
+
+The file name will be kept while copying the file from source path to target path.
+
+This option enables the use of glob patterns. [See here](https://www.malikbrowne.com/blog/a-beginners-guide-glob-patterns/) for more about glob patterns.
+
+<details>
+<summary>Show an example</summary>
+
+````typescript
+fileCopyPlugin({
+  globs: [{
+    from: "my-lib/**/*.env", // input path
+    to: "dist/my-lib" // copied to path
+  }]
+});
+````
+
+</details>
+
+### Returns
+
+Type: ``Plugin``
+
+An instance of this plugin, that will be used by esbuild automatically.
 
 ## License
 
-The MIT License (MIT) - Please have a look at the LICENSE file for more details.
+The MIT License (MIT) - Please have a look at the [License](https://github.com/simonkovtyk/esbuild-plugin-file-copy/blob/main/LICENSE) file for more details.
 
 ## Contributing
 
-Feel free to contribute to this project.\
-You can fork this project and create a new pull request for contributing.
+Want to contribute to an open-source project on GitHub but unsure where to start? Check out this comprehensive step-by-step guide on how to contribute effectively!
 
-[Get to the repository at GitHub.](https://github.com/simonkovtyk/esbuild-plugin-file-copy)
+From forking the repository to creating pull requests, this guide walks you through every stage of the process, helping you make a successful contribution to this GitHub project. Start collaborating,
+learn new skills, and make an impact on this project!
+
+[See here](https://github.com/simonkovtyk/esbuild-plugin-file-copy/blob/main/docs/guides/HOW_TO_CONTRIBUTE.md) for the contribute guide at GitHub.
 
 <hr>
 

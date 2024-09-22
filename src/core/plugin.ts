@@ -1,82 +1,70 @@
 import path from "node:path";
-import { resolveOutDir } from "./helpers/out.helper";
-import { Input, Lifecycle, Options, ResolvePathOptions } from "./types/options.type";
+import { Glob, HandlerOptions, Input, Lifecycle, Options } from "./types/options.type";
 import { PluginBuild, Plugin } from "esbuild";
-import fastGlob from "fast-glob"
 import fs from "node:fs";
+import fastGlob from "fast-glob";
 
-const handler = (inputs: string[] | Input[], options: ResolvePathOptions) => {
-	return async () => {
-		const resolvedOutDir: string = resolveOutDir(options);
+const handler = (handlerOptions: HandlerOptions) => {
+  return async () => {
+    handlerOptions.inputs?.forEach((input: Input): void => {
+      const inputFilePath: string = path.join(process.cwd(), input.from);
 
-		inputs.forEach((input: string | Input): void => {
-			if (typeof input === "string") {
-				const globs: string[] = fastGlob.sync(input);
+      if (!fs.existsSync(inputFilePath))
+        return;
 
-				if (globs.length === 0)
-					return;
+      const outputPath = path.join(process.cwd(), input.to);
+      const outputPathDir = path.parse(outputPath).dir;
 
-				if (! fs.existsSync(resolvedOutDir))
-					fs.mkdirSync(resolvedOutDir, { recursive: true });
+      if (!fs.existsSync(outputPathDir))
+        fs.mkdirSync(outputPathDir, { recursive: true });
 
-				globs.forEach((glob: string): void => {
-					const fileName: string = path.parse(glob).base;
+      fs.copyFileSync(inputFilePath, outputPath);
+    });
 
-					fs.copyFileSync(glob, `${ resolvedOutDir }/${ fileName }`);
-				});
+    handlerOptions.globs?.forEach((glob: Glob): void => {
+      const inputFilePaths: string[] = fastGlob.sync(glob.from);
 
-				return;
-			}
+      inputFilePaths.forEach(((inputFilePath: string): void => {
+        if (!fs.existsSync(inputFilePath))
+          return;
 
-			const globs: string[] = fastGlob.sync(input.glob);
+        const inputFileName = path.parse(inputFilePath).base;
 
-			if (globs.length === 0)
-				return;
+        const outputFilePath = path.join(process.cwd(), glob.to, inputFileName);
+        const outputDirPath = path.parse(outputFilePath).dir;
 
-			globs.forEach((glob: string): void => {
-				const fileName: string = path.parse(glob).base;
+        if (!fs.existsSync(outputDirPath))
+          fs.mkdirSync(outputDirPath, { recursive: true });
 
-				const outDir: string = input.output ?? resolvedOutDir;
+        fs.copyFileSync(inputFilePath, outputFilePath);
+      }));
+    });
+  };
+};
 
-				if (! fs.existsSync(outDir))
-					fs.mkdirSync(outDir, { recursive: true });
+const fileCopyPlugin = (options?: Options | undefined): Plugin => ({
+  name: "esbuild-plugin-file-copy",
+  setup: (build: PluginBuild) => {
+    const lifecycle: Lifecycle = options?.lifecycle ?? "onEnd";
 
-				fs.copyFileSync(glob, `${ outDir }/${ fileName }`);
-			})
-		});
-	}
-}
+    const handlerOptions: HandlerOptions = {
+      inputs: options?.inputs,
+      globs: options?.globs
+    };
 
-const fileCopyPlugin = (options: Options): Plugin => ({
-	name: "esbuild-plugin-file-copy",
-	setup: (build: PluginBuild) => {
-		const lifecycle: Lifecycle = options.lifecycle ?? "onEnd";
+    const handlerRef = handler(handlerOptions);
 
-		const resolvePathOptions: ResolvePathOptions = {
-			outBase: build.initialOptions.outbase,
-			outDir: build.initialOptions.outdir,
-			outFile: build.initialOptions.outfile,
-			overrideOutBase: options.overrideOutBase,
-			overrideOutDir: options.overrideOutDir,
-			overrideOutFile: options.overrideOutFile
-		}
-
-		const handlerRef = handler(options.inputs, resolvePathOptions);
-
-		switch (lifecycle) {
-			case "onStart":
-				build.onStart(handlerRef);
-				break;
-			case "onEnd":
-				build.onEnd(handlerRef);
-				break;
-			case "onDispose":
-				build.onDispose(handlerRef);
-				break;
-		}
-	}
-})
+    switch (lifecycle) {
+      case "onStart":
+        build.onStart(handlerRef);
+        break;
+      case "onEnd":
+        build.onEnd(handlerRef);
+        break;
+    }
+  }
+});
 
 export {
-	fileCopyPlugin
-}
+  fileCopyPlugin
+};

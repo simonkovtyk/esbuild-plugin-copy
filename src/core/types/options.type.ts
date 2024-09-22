@@ -1,30 +1,28 @@
-type Lifecycle = "onStart" | "onEnd" | "onDispose";
+type Lifecycle = "onStart" | "onEnd";
 
-type Input = {
-	glob: string,
-	output?: string | undefined
+interface Glob {
+  from: string;
+  to: string;
 }
 
-type PathOverrides = {
-	overrideOutBase?: string | undefined,
-	overrideOutDir?: string | undefined,
-	overrideOutFile?: string | undefined
+interface Input {
+  from: string;
+  to: string;
 }
 
-type Options = {
-	lifecycle?: Lifecycle | undefined,
-	inputs: string[] | Input[]
-} & PathOverrides
+interface HandlerOptions {
+  inputs?: Input[] | undefined;
+  globs?: Glob[] | undefined;
+}
 
-type ResolvePathOptions = {
-	outDir?: string | undefined,
-	outFile?: string | undefined,
-	outBase?: string | undefined
-} & PathOverrides
+interface Options extends HandlerOptions {
+  lifecycle?: Lifecycle | undefined;
+}
 
 export type {
-	ResolvePathOptions,
-	Lifecycle,
-	Options,
-	Input
-}
+  HandlerOptions,
+  Lifecycle,
+  Options,
+  Glob,
+  Input
+};
