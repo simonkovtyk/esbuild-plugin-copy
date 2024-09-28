@@ -79,6 +79,25 @@ esbuild.build({
 
 ### Properties
 
+#### ``lifecycle``
+
+> Default: ``onEnd``
+
+An string with either the value ``onStart`` or ``onEnd``.
+
+<details>
+<summary>Show an example</summary>
+
+````typescript
+fileCopyPlugin({
+  lifecycle: "onStart"
+});
+````
+
+</details>
+
+[See here](https://esbuild.github.io/plugins/#concepts) for more about esbuild lifecycles.
+
 #### ``inputs``
 
 > Default: ``undefined``
