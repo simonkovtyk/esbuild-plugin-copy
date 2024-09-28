@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: '[BUG]: add your description here...'
 labels: bug proposal
 assignees: simonkovtyk
 
@@ -22,9 +22,6 @@ A clear and concise description about how to trigger the bug again.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
-
-**Additional output**
-If applicable, add your console log or any other output to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.

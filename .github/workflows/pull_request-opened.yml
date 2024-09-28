@@ -1,0 +1,49 @@
+name: Pull request opened
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
+
+jobs:
+  notify-greet:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Auto assign
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addAssignees({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              assignees: [ "simonkovtyk" ]
+            });
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [ "feature" ]
+            });
+      - name: Greet
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `### 🎉 Welcome!
+
+            Thank you for your contribution and for opening this pull request.
+
+            ### 📖 Contribution Guidelines
+
+            For more details on how to contribute effectively, please refer to our [How to Contribute](https://github.com/simonkovtyk/esbuild-plugin-file-copy/blob/main/docs/guides/HOW_TO_CONTRIBUTE.md) document.`
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });

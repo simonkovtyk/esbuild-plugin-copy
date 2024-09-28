@@ -50,18 +50,31 @@
 			"email": "privat@kovtyk.com"
 		}
 	],
+	"scripts": {
+		"commitlint": "commitlint",
+		"eslint": "eslint",
+		"tsc": "tsc",
+		"prepare": "husky"
+	},
 	"dependencies": {
 		"esbuild": ">=0.20.0",
 		"fast-glob": "^3.3.2"
 	},
 	"devDependencies": {
-		"typescript": "^5.5.4",
-		"@types/node": "^22.5.4",
-		"eslint": "^9.10.0",
-		"typescript-eslint": "^8.6.0",
-		"@stylistic/eslint-plugin": "^2.8.0",
+		"@commitlint/cli": "^19.5.0",
+		"@commitlint/config-conventional": "^19.5.0",
+		"@commitlint/cz-commitlint": "^19.5.0",
 		"@eslint/js": "^9.10.0",
+		"@stylistic/eslint-plugin": "^2.8.0",
 		"@types/eslint__js": "^8.42.3",
-		"husky": "^9.1.6"
+		"@types/node": "^22.5.4",
+		"commitizen": "^4.3.0",
+		"cz-conventional-changelog": "^3.3.0",
+		"esbuild": ">=0.20.0",
+		"eslint": "^9.10.0",
+		"husky": "^9.1.6",
+		"inquirer": "9.3.6",
+		"typescript": "^5.5.4",
+		"typescript-eslint": "^8.6.0"
 	}
 }

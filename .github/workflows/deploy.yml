@@ -1,5 +1,6 @@
 name: Deploy
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -18,7 +19,7 @@ jobs:
           run_install: true
 
       - name: Build
-        run: tsc
+        run: pnpm run tsc
 
       - name: Assets
         run: |
